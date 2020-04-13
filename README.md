@@ -3,7 +3,8 @@ Example to show how to enable Logs in context using Serilog as logging provider 
 
 
 Logging configuration is controlled via appconfig.json in application . In this case the output is console / Container/ Kubernetes logs. The logs are injested using our infra agen kubernetes logging plugin
-**Prerequisite**
+
+* Prerequisite
     1. Kubernetes integration
     2. Kubernetes logging plugin https://github.com/newrelic/kubernetes-logging
 
@@ -22,6 +23,7 @@ Logging configuration is controlled via appconfig.json in application . In this 
     >docker run --rm -it -e ASPNETCORE_ENVIRONMENT=Development -e ASPNETCORE_DETAILEDERRORS=1 -e NEW_RELIC_LICENSE_KEY=<<YOUR NR KEY>>  -p 8000:80 aspnetcore-docker-logging:latest 
 
 4.   ***Kubernetes Run***
+
     Kuberenetes logging plugin. Follow instructions here  https://github.com/newrelic/kubernetes-logging
 
     **Deployment**
