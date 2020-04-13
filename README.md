@@ -1,4 +1,4 @@
-# nr-dotnet-lic-extentsions-logging
+# nr-dotnet-lic-extentions-logging
 Example to show how to enable Logs in context using Serilog as logging provider for Microsoft.Extentions.Logging for more details read https://github.com/serilog/serilog-aspnetcore#inline-initialization
 
 
