@@ -23,30 +23,17 @@ Logging configuration is controlled via appconfig.json in application . In this 
     >docker run --rm -it -e ASPNETCORE_ENVIRONMENT=Development -e ASPNETCORE_DETAILEDERRORS=1 -e NEW_RELIC_LICENSE_KEY=<<YOUR NR KEY>>  -p 8000:80 aspnetcore-docker-logging:latest 
 
 4.   ***Kubernetes Run***
-
     Kuberenetes logging plugin. Follow instructions here  https://github.com/newrelic/kubernetes-logging
-
-    **Deployment**
-    * Run the app as a Kubernetes deployment/service  (assuming you have local kube instance running):
-    >kubectl create -f deployment.yml 
-    * Running the follwoign should give you url to access the app 
-     > minikube service list
-    ```
-        |----------------------|---------------------------|----------------------------|-----|
-        |      NAMESPACE       |           NAME            |        TARGET PORT         | URL |
-        |----------------------|---------------------------|----------------------------|-----|
-        | default              | aspnetcore-logging-svc    | http://192.168.64.38:32160 |
-        | default              | kubernetes                | No node port               |
-        | kube-system          | kube-dns                  | No node port               |
-        | kube-system          | kube-state-metrics        | No node port               |
-        | kubernetes-dashboard | dashboard-metrics-scraper | No node port               |
-        | kubernetes-dashboard | kubernetes-dashboard      | No node port               |
-        |----------------------|---------------------------|----------------------------|-----|
-    ```
-    * Access few URLs to generate traffic 
-    * Check logs in Log UI/Insights 
+     ***Deployment***
+     * Run the app as a Kubernetes deployment/service  (assuming you have local kube instance running)
+        >kubectl create -f deployment.yml 
+     
+     * Running the following should give you url to access the app.
+        >minikube service list
+     * Access few URLs to generate traffic 
+     * Check logs in Log UI/Insights 
     
-*References 
+***References***
 
 https://docs.newrelic.com/docs/logs/enable-logs/enable-logs/kubernetes-plugin-logs#kubernetes-plugin
 https://github.com/newrelic/kubernetes-logging
