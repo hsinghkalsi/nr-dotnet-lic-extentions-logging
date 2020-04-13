@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aspnetcore-logging
+  labels:
+    app: logging
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: logging
+  template:
+    metadata:
+      labels:
+        app: logging
+    spec:
+      containers:
+      - name: aspnetcore-logging
+        image: singhharkamal/aspnetcore-docker-logging:1.0
+        env:
+        - name: ASPNETCORE_URLS
+          value: "http://+:80"
+        - name: ASPNETCORE_ENVIRONMENT
+          value: Production
+        - name: NEW_RELIC_LICENSE_KEY
+          value: a8c1ef2927e8b0b2acfdcec82ee471d7f9049be3
+          # value: Kubernetes
+        ports:
+        - name: http
+          containerPort: 80
+
+---
+# app service
+apiVersion: v1
+kind: Service
+metadata:
+  name: aspnetcore-logging-svc
+  labels:
+    app: logging
+spec:
+  type: NodePort
+  ports:
+  - port: 80
+    targetPort: 80
+    protocol: TCP
+    name: http
+  selector:
+    app: logging
