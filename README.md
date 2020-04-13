@@ -49,5 +49,3 @@ Logging configuration is controlled via appconfig.json in application . In this 
 https://docs.newrelic.com/docs/logs/enable-logs/enable-logs/kubernetes-plugin-logs#kubernetes-plugin
 https://github.com/newrelic/kubernetes-logging
 
-
-
