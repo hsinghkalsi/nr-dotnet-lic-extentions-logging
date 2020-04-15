@@ -32,9 +32,9 @@ There are multiple ways to enable this integration, we have tired to create one 
             .ConfigureWebHostDefaults(webBuilder =>
             {
                 webBuilder.UseStartup<Startup>();
-            })<bold>.UseSerilog((hostingContext, loggerConfiguration) => loggerConfiguration
+            })<b>.UseSerilog((hostingContext, loggerConfiguration) => loggerConfiguration
                 .ReadFrom.Configuration(hostingContext.Configuration)
-                .Enrich.FromLogContext());</bold>
+                .Enrich.FromLogContext());</b>
     </code></pre>
 3. 
 
