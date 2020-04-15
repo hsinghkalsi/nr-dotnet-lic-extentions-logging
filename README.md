@@ -4,10 +4,43 @@ Example to show how to enable Logs in context using Serilog as logging provider 
 
 Logging configuration is controlled via appconfig.json in application . In this case the output is console / Container/ Kubernetes logs. The logs are injested using our infra agen kubernetes logging plugin
 
-* Prerequisite
+##### Prerequisites
     1. Kubernetes integration
     2. Kubernetes logging plugin https://github.com/newrelic/kubernetes-logging
+    3. Sample aspnetcore application.
 
+#### Code changes required to app
+
+The code changes introduce serilog log provider and corresponding new relic enricher to format and enrich the microsoft extentions logs to be injested by new relic. Here is summary of code chnages required. 
+There are multiple ways to enable this integration, we have tired to create one that requires minimal code changes as suggested in https://github.com/serilog/serilog-aspnetcore#inline-initialization
+
+1. Nuget imports
+    The .csproj file is updated with references to required nugets 
+    ```
+    <PackageReference Include="NewRelic.LogEnrichers.Serilog" Version="1.0.0" />
+    <PackageReference Include="NewRelic.Agent.Api" Version="8.21.34" />
+    <PackageReference Include="Serilog.AspNetCore" Version="3.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.3" />
+    <PackageReference Include="Serilog.Settings.Configuration" Version="3.1.0" />
+    ```
+2.  Program.cs inside the function CreateHostBuilder 
+    Add .UseSerilog() as shown below to the ***CreateDefaultBuilder*** function
+
+    <pre><code>
+    public static IHostBuilder CreateHostBuilder(string[] args) =>
+        Host.CreateDefaultBuilder(args)
+            .ConfigureWebHostDefaults(webBuilder =>
+            {
+                webBuilder.UseStartup<Startup>();
+            })<bold>.UseSerilog((hostingContext, loggerConfiguration) => loggerConfiguration
+                .ReadFrom.Configuration(hostingContext.Configuration)
+                .Enrich.FromLogContext());</bold>
+    </code></pre>
+3. 
+
+
+
+##### Deployment
 *Skip to Step 4 is you want to just test deployment and not recreate image with custom settings
 
 1.  ***Local run*** 
@@ -32,9 +65,11 @@ Logging configuration is controlled via appconfig.json in application . In this 
         >minikube service list
      * Access few URLs to generate traffic 
      * Check logs in Log UI/Insights 
-    
+
+
+
 ***References***
 
 https://docs.newrelic.com/docs/logs/enable-logs/enable-logs/kubernetes-plugin-logs#kubernetes-plugin
-https://github.com/newrelic/kubernetes-logging
-
+https://github.com/newrelic/kubernetes-logging 
+https://github.com/newrelic/kubernetes-logginghttps://github.com/serilog/serilog-aspnetcore#inline-initialization
