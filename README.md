@@ -23,9 +23,9 @@ There are multiple ways to enable this integration, we have tired to create one 
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.3" />
     <PackageReference Include="Serilog.Settings.Configuration" Version="3.1.0" />
     ```
-2.  Program.cs inside the function CreateHostBuilder 
-    Add .UseSerilog() as shown below to the ***CreateDefaultBuilder*** function
-
+2.  *Program.cs* modifications 
+    Add .UseSerilog() as shown below to the *CreateDefaultBuilder* function
+    We are enabling logger conifgration to be pulled via hosting context, in this case *appsettings.json*.
     <pre><code>
     public static IHostBuilder CreateHostBuilder(string[] args) =>
         Host.CreateDefaultBuilder(args)
@@ -36,9 +36,41 @@ There are multiple ways to enable this integration, we have tired to create one 
                 .ReadFrom.Configuration(hostingContext.Configuration)
                 .Enrich.FromLogContext());</b>
     </code></pre>
-3. 
 
+3. Configuring appsettings.json
+    The configration for serilog to use Newrelic contect and target type is configured in this file
 
+    <pre><code>{
+    <b>"Serilog": {
+        "Using": [ 
+            "Serilog.Sinks.Console",
+            "Serilog.Sinks.File",
+            "NewRelic.LogEnrichers.Serilog" 
+        ],
+        "MinimumLevel": "Debug",
+        "Enrich": [ "WithNewRelicLogsInContext" ],
+        "WriteTo": [
+        {
+            "Name": "Console",
+            "Args": {
+            "formatter": "NewRelic.LogEnrichers.Serilog.NewRelicFormatter, NewRelic.LogEnrichers.Serilog"
+            }
+        }
+        ],
+
+        "Properties": {
+        "Application": "NewRelic Logging Serilog Example"
+        },<b>
+
+        "LogLevel": {
+        "Default": "Information",
+        "Microsoft": "Warning",
+        "Microsoft.Hosting.Lifetime": "Information"
+        }
+    },
+    "AllowedHosts": "*"
+    }</code></pre>
+    
 
 ##### Deployment
 *Skip to Step 4 is you want to just test deployment and not recreate image with custom settings
