@@ -60,7 +60,7 @@ There are multiple ways to enable this integration, we have tired to create one 
 
         "Properties": {
         "Application": "NewRelic Logging Serilog Example"
-        },<b>
+        },</b>
 
         "LogLevel": {
         "Default": "Information",
@@ -70,7 +70,7 @@ There are multiple ways to enable this integration, we have tired to create one 
     },
     "AllowedHosts": "*"
     }</code></pre>
-    
+
 
 ##### Deployment
 *Skip to Step 4 is you want to just test deployment and not recreate image with custom settings
